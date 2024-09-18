@@ -10,14 +10,13 @@ $ pip install wagtail_adminsortable
 
 ```    
 
-Add ``wagtail_adminsortable`` to ``INSTALLED_APPS`` in ``settings.py`` for your Django project:
+Add `wagtail_adminsortable` and `wagtail.contrib.modeladmin,` to `INSTALLED_APPS` in `settings.py` for your Django project:
 
 ```python
 INSTALLED_APPS = [
-  ...
-  'wagtail_adminsortable',
-]
-
+   ...
+   'wagtail.contrib.modeladmin',
+   'wagtail_adminsortable',
 ```
 
 
@@ -62,16 +61,18 @@ ORDERING_FIELD = 'my_order'
 
 ##### Integrate into a list view
 
-###### In wagtail_hooks.py, add a mixin class to augment the functionality for sorting (be sure to put the mixin class before ModelAdmin):
+###### In wagtail_hooks.py (in your app directory), add a mixin class to augment the functionality for sorting (be sure to put the mixin class before ModelAdmin):
 
 ```python
-from wagtail.contrib.modeladmin.options import ModelAdmin
-from wagtail_adminsortable.admin import SortableAdminMixin
+ from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+ from wagtail_adminsortable.admin import SortableAdminMixin
 
 
-class CategoryAdmin(SortableAdminMixin, ModelAdmin):
-    pass
-```
+ class CategoryAdmin(SortableAdminMixin, ModelAdmin):
+     model = YourModel
+
+ modeladmin_register(CategoryAdmin)
+ ```
 
 
 ##### License
